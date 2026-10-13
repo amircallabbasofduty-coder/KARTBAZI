@@ -1,1 +1,329 @@
 
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07101d">
+<title>FC FRIENDS | Ultimate Team</title>
+<style>
+:root{--bg:#07101d;--panel:#101d30;--panel2:#17283e;--line:#2c4059;--gold:#f5cc68;--gold2:#fff0b8;--text:#f4f7fb;--muted:#9eafc5;--green:#61e8a9;--red:#ff8585}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#142945,#07101d 58%,#040811);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:1250px;margin:auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;padding:10px 0 20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:55px;height:55px;border-radius:15px;background:linear-gradient(135deg,#fff1b5,#d39b31);display:grid;place-items:center;color:#142033;font-size:21px;font-weight:1000;box-shadow:0 6px 25px #f5cc6833}
+.brand h1{font-size:25px;margin:0;direction:ltr;text-align:right}
+.brand p{font-size:10px;letter-spacing:2px;color:var(--muted);margin:5px 0 0;direction:ltr;text-align:right}
+nav{display:flex;gap:7px;flex-wrap:wrap}
+button,.btn{background:#14243a;border:1px solid var(--line);border-radius:11px;color:var(--text);padding:10px 13px;transition:.18s}
+button:hover,.btn:hover{border-color:var(--gold);color:var(--gold)}
+nav button.active{background:var(--gold);color:#101827;border-color:var(--gold);font-weight:bold}
+.primary{background:linear-gradient(135deg,#fff0b8,#d9a53d);border:0;color:#142033;font-weight:bold}
+.danger{border-color:#81414b;color:#ffaaaa}
+.page{display:none}.page.active{display:block}
+.hero{position:relative;overflow:hidden;padding:25px;border:1px solid #3b4d63;border-radius:23px;background:linear-gradient(115deg,#172d48,#101827 65%,#49371b);box-shadow:0 15px 35px #0005}
+.hero:after{content:"FC";position:absolute;left:2%;top:-55px;font-size:190px;font-weight:1000;color:#ffffff08;pointer-events:none}
+.hero h2{font-size:clamp(25px,4vw,39px);margin:0 0 10px}.gold{color:var(--gold)}
+.hero p{line-height:2;color:var(--muted);max-width:730px;margin:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 28px}
+.summary div{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px}
+.summary strong{display:block;font-size:26px;color:var(--gold);margin-bottom:5px}.summary span{font-size:12px;color:var(--muted)}
+.section{margin:25px 0}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.heading h2{margin:0;font-size:21px}.heading p{color:var(--muted);font-size:12px;margin:6px 0 0}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.field{background:#091625;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px;width:100%;min-width:0}
+.toolbar .field{width:auto;min-width:135px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
+.player-card{position:relative;padding:8px;border-radius:17px;background:linear-gradient(145deg,#ffeb9e,#92702c 34%,#202a3a 35%,#080e18 100%);box-shadow:0 12px 30px #0005;cursor:pointer;transition:.2s;min-width:0}
+.player-card:hover{transform:translateY(-5px)}
+.card-inner{position:relative;overflow:hidden;min-height:345px;padding:12px;border:1px solid #ffedb68a;border-radius:12px;background:linear-gradient(145deg,#fff1bd12,#111c2d 55%,#e6b94a12)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.ovr{font-size:32px;font-weight:1000;color:var(--gold2);line-height:1}
+.position{font-weight:bold;text-align:center;margin-top:5px;font-size:12px}
+.tag{border:1px solid #ffedb677;border-radius:7px;padding:5px;font-size:10px;color:var(--gold2)}
+.avatar{height:132px;display:grid;place-items:center;margin-top:5px}
+.avatar img{max-height:132px;max-width:95%;object-fit:contain;filter:drop-shadow(0 8px 8px #0008)}
+.placeholder{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#ffe5a0,#866020);display:grid;place-items:center;border:3px solid #fff0b8;color:#111c2c;font-size:33px;font-weight:bold}
+.card-name{text-align:center;font-size:16px;font-weight:bold;color:var(--gold2);margin:5px 0}
+.card-english{text-align:center;direction:ltr;font-size:10px;color:#d4dce8;margin-bottom:10px}
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px;max-width:190px;margin:auto}
+.skill{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff20;padding:3px 0;font-size:12px}
+.skill b{color:var(--gold2);font-size:14px}
+.card-footer{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{background:#ffffff12;padding:5px 7px;border-radius:20px;font-size:10px;color:#e4e9f0}
+.empty{border:1px dashed var(--line);border-radius:15px;padding:25px;text-align:center;color:var(--muted)}
+.hidden{display:none!important}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.form-row{display:flex;flex-direction:column;gap:6px}.form-row label{font-size:12px;color:var(--muted)}
+.subheading{color:var(--gold);margin:20px 0 10px;font-size:15px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px}
+th,td{padding:11px;text-align:right;border-bottom:1px solid var(--line);font-size:12px}
+th{background:#0b1728;color:var(--gold)}td{color:#dce5ef}.rank{font-weight:bold;color:var(--gold)}
+.modal{position:fixed;inset:0;z-index:30;background:#020711df;display:none;align-items:center;justify-content:center;padding:14px;overflow:auto}
+.modal.open{display:flex}
+.modal-box{width:min(800px,100%);max-height:94vh;overflow:auto;background:#0c1727;border:1px solid #40536d;border-radius:19px;padding:17px;box-shadow:0 25px 90px #000b}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;gap:10px}.modal-head h2{margin:0;font-size:20px}
+.close{width:38px;height:38px;padding:5px}
+.profile-grid{display:grid;grid-template-columns:250px 1fr;gap:17px}
+.details{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.detail{padding:10px;background:#111f32;border:1px solid var(--line);border-radius:10px}
+.detail span{display:block;font-size:11px;color:var(--muted)}.detail b{display:block;margin-top:5px}
+.bar-row{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:12px}
+.bar-row label{width:35px;color:var(--muted)}.bar{height:6px;background:#29394c;border-radius:8px;overflow:hidden;flex:1}.bar i{display:block;height:100%;background:linear-gradient(90deg,#b58b35,#ffe39a)}.bar-row b{width:25px;color:var(--gold);text-align:left}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.compare-card{background:#101e30;border:1px solid var(--line);border-radius:13px;padding:13px}
+.pack-area{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.pack{background:linear-gradient(145deg,#1b2c42,#0b1320);border:1px solid #b99344;border-radius:16px;padding:20px;text-align:center}
+.pack-icon{font-size:45px}.pack h3{color:var(--gold);margin:8px 0}.pack p{color:var(--muted);font-size:12px;line-height:1.8}
+.pack-result{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px}
+.pitch{position:relative;padding:16px;border:3px solid #a5f4c0;border-radius:12px;background:repeating-linear-gradient(0deg,#14784b,#14784b 45px,#0e6a41 45px,#0e6a41 90px);overflow:hidden}
+.pitch:before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid #c2f9d5}
+.pitch:after{content:"";position:absolute;width:95px;height:95px;border:2px solid #c2f9d5;border-radius:50%;left:calc(50% - 47px);top:calc(50% - 47px)}
+.pitch-box{position:absolute;left:25%;width:50%;height:45px;border:2px solid #c2f9d5}
+.pitch-box.top{top:0;border-top:0}.pitch-box.bottom{bottom:0;border-bottom:0}
+.formation{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;min-height:360px;gap:12px}
+.lineup-row{display:flex;justify-content:space-evenly;align-items:center;gap:10px}
+.slot{width:125px;min-height:67px;border:1px dashed #d9ffe4;border-radius:11px;background:#071e15c9;color:white;text-align:center;padding:7px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:11px}
+.slot.over{background:#f5cc6840;border-color:var(--gold)}.slot .slot-ovr{font-size:18px;color:#ffe49a;font-weight:bold}
+.bench{display:flex;gap:9px;overflow:auto;padding:12px 2px}
+.bench-player{min-width:135px;border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:10px;text-align:center;cursor:grab}
+.bench-player b{display:block;color:var(--gold);font-size:12px;margin:5px 0}.bench-player small{color:var(--muted)}
+.toast{position:fixed;z-index:60;bottom:18px;left:50%;transform:translateX(-50%);background:#e6c46c;color:#101827;padding:12px 17px;border-radius:11px;font-weight:bold;display:none;box-shadow:0 10px 30px #0006;max-width:90%;text-align:center}
+footer{text-align:center;padding:25px 0;color:var(--muted);font-size:11px;line-height:2}
+@media(max-width:700px){
+.app{padding:11px}header{align-items:flex-start}.brand h1{font-size:21px}
+nav{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}nav button{font-size:12px;padding:9px 4px}
+.summary{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.player-card{padding:5px}.card-inner{padding:8px;min-height:315px}.avatar{height:105px}.avatar img{max-height:104px}.placeholder{width:80px;height:80px}
+.ovr{font-size:27px}.card-name{font-size:13px}.card-english{font-size:9px}.skill{font-size:11px}.skill b{font-size:12px}
+.chip{font-size:9px}.form-grid{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}.profile-grid>.player-card{max-width:260px;width:100%;margin:auto}
+.pack-area{grid-template-columns:1fr}.compare-grid{grid-template-columns:1fr}.pitch{padding:8px}.formation{min-height:330px}.slot{width:91px;min-height:61px;font-size:10px;padding:4px}
+.heading h2{font-size:18px}.hero{padding:19px}.toolbar{width:100%}.toolbar .field{flex:1;min-width:0}
+}
+@media(max-width:370px){.cards{grid-template-columns:1fr}.player-card{max-width:280px;width:100%;margin:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">FC</div><div><h1>FC <span class="gold">FRIENDS</span></h1><p>ULTIMATE TEAM · FRIENDS EDITION</p></div></div>
+  <nav id="nav">
+    <button class="active" data-page="home">خانه</button>
+    <button data-page="gallery">بازیکنان</button>
+    <button data-page="ranking">رتبه‌بندی</button>
+    <button data-page="compare">مقایسه</button>
+    <button data-page="packs">باز کردن پک</button>
+    <button data-page="squad">ترکیب فوتسال</button>
+    <button data-page="admin">مدیریت</button>
+  </nav>
+</header>
+
+<main>
+<section class="page active" id="page-home">
+  <div class="hero">
+    <h2>ساخت تیم رؤیایی <span class="gold">FC FRIENDS</span></h2>
+    <p>کارت اختصاصی دوستان با استایل فوتبالی، آمار قابل ویرایش، رتبه‌بندی و ترکیب پنج‌نفره فوتسال. اطلاعات در همین مرورگر ذخیره می‌شوند.</p>
+    <div class="actions">
+      <button class="primary" onclick="showPage('gallery')">مشاهده کارت‌ها</button>
+      <button onclick="showPage('squad')">چیدن ترکیب</button>
+      <button onclick="showPage('packs')">باز کردن پک</button>
+    </div>
+  </div>
+  <div class="summary">
+    <div><strong id="totalPlayers">12</strong><span>بازیکن ثبت‌شده</span></div>
+    <div><strong id="topOvr">—</strong><span>بالاترین OVR</span></div>
+    <div><strong id="avgOvr">—</strong><span>میانگین OVR تیم</span></div>
+    <div><strong id="topPlayer">—</strong><span>برترین بازیکن</span></div>
+  </div>
+  <section class="section">
+    <div class="heading"><div><h2>⭐ کارت‌های برتر</h2><p>بازیکنان با بالاترین امتیاز کلی</p></div><button onclick="showPage('ranking')">رتبه‌بندی ←</button></div>
+    <div class="cards" id="featuredCards"></div>
+  </section>
+  <section class="section">
+    <div class="heading"><div><h2>🃏 بازیکنان تیم</h2><p>برای دیدن جزئیات روی کارت بزن</p></div><button onclick="showPage('gallery')">همه بازیکنان ←</button></div>
+    <div class="cards" id="homeCards"></div>
+  </section>
+</section>
+
+<section class="page" id="page-gallery">
+  <div class="heading"><div><h2>🃏 گالری بازیکنان</h2><p>جست‌وجو، فیلتر و مرتب‌سازی کارت‌ها</p></div>
+    <div class="toolbar">
+      <input class="field" id="searchInput" placeholder="جست‌وجوی نام...">
+      <select class="field" id="positionFilter">
+        <option value="">همه پست‌ها</option><option>دروازه‌بان</option><option>دفاع</option><option>هافبک وسط</option><option>هافبک هجومی</option><option>هافبک دفاعی</option><option>مهاجم</option><option>وینگر چپ</option><option>وینگر راست</option>
+      </select>
+      <select class="field" id="sortSelect"><option value="ovr">بالاترین OVR</option><option value="name">نام</option><option value="pac">سرعت</option><option value="sho">شوت</option><option value="dri">دریبل</option></select>
+    </div>
+  </div>
+  <div class="cards" id="galleryCards"></div><div class="empty hidden" id="noResults">بازیکنی پیدا نشد.</div>
+</section>
+
+<section class="page" id="page-ranking">
+  <div class="heading"><div><h2>🏆 رتبه‌بندی بازیکنان</h2><p>OVR برابر میانگین شش ویژگی اصلی، گرد شده به نزدیک‌ترین عدد صحیح است.</p></div>
+    <select class="field" id="rankingSort" style="width:auto">
+      <option value="ovr">امتیاز کلی OVR</option><option value="pac">سرعت PAC</option><option value="sho">شوت SHO</option><option value="pas">پاس PAS</option><option value="dri">دریبل DRI</option><option value="def">دفاع DEF</option><option value="phy">قدرت بدنی PHY</option>
+    </select>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>رتبه</th><th>بازیکن</th><th>پست</th><th>OVR</th><th>PAC</th><th>SHO</th><th>PAS</th><th>DRI</th><th>DEF</th><th>PHY</th></tr></thead><tbody id="rankingBody"></tbody></table></div>
+</section>
+
+<section class="page" id="page-compare">
+  <div class="heading"><div><h2>⚔️ مقایسه دو بازیکن</h2><p>امتیازها را کنار هم بررسی کن.</p></div></div>
+  <div class="panel">
+    <div class="form-grid">
+      <div class="form-row"><label>بازیکن اول</label><select class="field" id="compareA"></select></div>
+      <div class="form-row"><label>بازیکن دوم</label><select class="field" id="compareB"></select></div>
+    </div>
+    <div id="compareResult" style="margin-top:18px"></div>
+  </div>
+</section>
+
+<section class="page" id="page-packs">
+  <div class="heading"><div><h2>🎁 پک‌های بازیکنان</h2><p>فقط سرگرمی و انیمیشن؛ بدون خرید یا پول مجازی.</p></div></div>
+  <div class="pack-area">
+    <div class="pack"><div class="pack-icon">🥉</div><h3>BRONZE PACK</h3><p>یک کارت تصادفی</p><button class="primary" onclick="openPack(1)">باز کردن پک</button></div>
+    <div class="pack"><div class="pack-icon">🥈</div><h3>SILVER PACK</h3><p>دو کارت تصادفی</p><button class="primary" onclick="openPack(2)">باز کردن پک</button></div>
+    <div class="pack"><div class="pack-icon">🥇</div><h3>GOLD PACK</h3><p>سه کارت تصادفی</p><button class="primary" onclick="openPack(3)">باز کردن پک</button></div>
+  </div>
+  <div class="pack-result" id="packResult"></div>
+</section>
+
+<section class="page" id="page-squad">
+  <div class="heading"><div><h2>⚽ ترکیب فوتسال پنج‌نفره</h2><p>بازیکن را از نیمکت بکش روی زمین؛ در گوشی ابتدا بازیکن و سپس جایگاه را لمس کن.</p></div><button onclick="resetSquad()">پاک‌کردن ترکیب</button></div>
+  <div class="pitch"><div class="pitch-box top"></div><div class="pitch-box bottom"></div>
+    <div class="formation" id="formation">
+      <div class="lineup-row"><div class="slot" data-slot="0">🧤 دروازه‌بان</div></div>
+      <div class="lineup-row"><div class="slot" data-slot="1">بازیکن</div><div class="slot" data-slot="2">بازیکن</div></div>
+      <div class="lineup-row"><div class="slot" data-slot="3">بازیکن</div><div class="slot" data-slot="4">بازیکن</div></div>
+    </div>
+  </div>
+  <h3 class="subheading">نیمکت ذخیره‌ها</h3><div class="bench" id="bench"></div>
+</section>
+
+<section class="page" id="page-admin">
+  <div class="heading"><div><h2>🛠 پنل مدیریت</h2><p>ویرایش بازیکن‌ها، افزودن بازیکن و پشتیبان‌گیری</p></div></div>
+  <div id="adminLogin" class="panel">
+    <h3>ورود مدیر</h3><p style="font-size:12px;color:var(--muted)">رمز پیش‌فرض: FC1405</p>
+    <div class="form-grid"><div class="form-row"><label>رمز مدیریت</label><input class="field" id="adminPassword" type="password" placeholder="رمز را وارد کن"></div></div>
+    <button class="primary" style="margin-top:12px" onclick="loginAdmin()">ورود</button>
+  </div>
+  <div id="adminContent" class="hidden">
+    <div class="panel">
+      <div class="heading"><h3 style="margin:0">اطلاعات بازیکن</h3><button onclick="newPlayerForm()">+ بازیکن جدید</button></div>
+      <div class="form-grid">
+        <div class="form-row"><label>انتخاب بازیکن</label><select class="field" id="editPlayer"></select></div>
+        <div class="form-row"><label>نام فارسی</label><input class="field" id="fName"></div>
+        <div class="form-row"><label>نام انگلیسی روی کارت</label><input class="field" id="fEnglish" dir="ltr"></div>
+        <div class="form-row"><label>سن</label><input class="field" id="fAge" type="number" min="1" max="99"></div>
+        <div class="form-row"><label>پست اصلی</label><select class="field" id="fPosition"><option>دروازه‌بان</option><option>دفاع</option><option>هافبک وسط</option><option>هافبک هجومی</option><option>هافبک دفاعی</option><option>مهاجم</option><option>وینگر چپ</option><option>وینگر راست</option></select></div>
+        <div class="form-row"><label>پست فرعی</label><input class="field" id="fSecondary"></div>
+        <div class="form-row"><label>نام فایل عکس داخل images</label><input class="field" id="fImage" dir="ltr" placeholder="player.jpg"></div>
+        <div class="form-row"><label>پای تخصصی</label><select class="field" id="fFoot"><option>راست</option><option>چپ</option></select></div>
+        <div class="form-row"><label>پای ضعیف (۱ تا ۵)</label><input class="field" id="fWeak" type="number" min="1" max="5"></div>
+        <div class="form-row"><label>مهارت تکنیکی (۱ تا ۵)</label><input class="field" id="fSkills" type="number" min="1" max="5"></div>
+        <div class="form-row"><label>نرخ کار هجومی</label><select class="field" id="fAttack"><option>کم</option><option>متوسط</option><option>زیاد</option></select></div>
+        <div class="form-row"><label>نرخ کار دفاعی</label><select class="field" id="fDefense"><option>کم</option><option>متوسط</option><option>زیاد</option></select></div>
+      </div>
+      <h4 class="subheading">شش ویژگی اصلی</h4>
+      <div class="form-grid">
+        <div class="form-row"><label>PAC — سرعت</label><input class="field skill-input" id="fPac" type="number" min="1" max="99"></div>
+        <div class="form-row"><label>SHO — شوت</label><input class="field skill-input" id="fSho" type="number" min="1" max="99"></div>
+        <div class="form-row"><label>PAS — پاس</label><input class="field skill-input" id="fPas" type="number" min="1" max="99"></div>
+        <div class="form-row"><label>DRI — دریبل</label><input class="field skill-input" id="fDri" type="number" min="1" max="99"></div>
+        <div class="form-row"><label>DEF — دفاع</label><input class="field skill-input" id="fDef" type="number" min="1" max="99"></div>
+        <div class="form-row"><label>PHY — قدرت بدنی</label><input class="field skill-input" id="fPhy" type="number" min="1" max="99"></div>
+      </div>
+      <p id="ovrPreview" class="gold">OVR محاسبه‌شده: —</p>
+      <div class="actions"><button class="primary" onclick="savePlayer()">ذخیره بازیکن</button><button class="danger" onclick="deletePlayer()">حذف بازیکن</button></div>
+    </div>
+    <div class="panel section">
+      <h3>پشتیبان‌گیری و بازیابی</h3>
+      <p style="font-size:12px;color:var(--muted)">اطلاعات بازیکنان و ترکیب را در فایل JSON ذخیره کن تا بتوانی بعداً بازیابی کنی.</p>
+      <div class="actions"><button onclick="exportData()">دانلود پشتیبان JSON</button><label class="btn" for="importFile">بازیابی پشتیبان</label><input id="importFile" class="hidden" type="file" accept=".json,application/json"><button onclick="changePassword()">تغییر رمز مدیریت</button><button onclick="logoutAdmin()">خروج مدیر</button></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer>FC FRIENDS · FRIENDS FOREVER ⚽<br>اطلاعات این نسخه در حافظه همین مرورگر ذخیره می‌شود.</footer>
+</div>
+
+<div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h2 id="modalTitle">پروفایل بازیکن</h2><button class="close" onclick="closeModal()">✕</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DEFAULT_PLAYERS=[
+{id:1,name:"احسان آرام",english:"M.ARAM",age:16,position:"هافبک هجومی",secondary:"هافبک دفاعی",image:"ehsan.jpg",pac:93,sho:86,pas:80,dri:84,def:90,phy:83,foot:"راست",weak:2,skills:4,attack:"زیاد",defense:"متوسط"},
+{id:2,name:"امیر عباس فیروز",english:"A.FIROOZ",age:16,position:"هافبک هجومی",secondary:"دفاع",image:"amirabbas.jpg",pac:92,sho:91,pas:85,dri:92,def:87,phy:81,foot:"راست",weak:4,skills:3,attack:"متوسط",defense:"زیاد"},
+{id:3,name:"یوسف سالاری",english:"Y.SALARY",age:16,position:"مهاجم",secondary:"هافبک دفاعی",image:"yoosef.jpg",pac:88,sho:81,pas:82,dri:85,def:84,phy:85,foot:"چپ",weak:1,skills:1,attack:"کم",defense:"متوسط"},
+{id:4,name:"طاها شبان",english:"T.SHABAN",age:16,position:"وینگر چپ",secondary:"مهاجم",image:"taha.jpg",pac:82,sho:85,pas:87,dri:89,def:84,phy:82,foot:"راست",weak:2,skills:2,attack:"زیاد",defense:"کم"},
+{id:5,name:"احمد اسماعیل زاده",english:"A.ESMAEALZADEH",age:16,position:"هافبک وسط",secondary:"دفاع",image:"aahmad.jpg",pac:87,sho:90,pas:79,dri:83,def:84,phy:90,foot:"راست",weak:2,skills:1,attack:"متوسط",defense:"متوسط"},
+{id:6,name:"عرفان بابائی",english:"E.BABAEA",age:15,position:"دفاع",secondary:"هافبک دفاعی",image:"erfan.jpg",pac:82,sho:79,pas:78,dri:81,def:88,phy:82,foot:"راست",weak:1,skills:1,attack:"متوسط",defense:"کم"},
+{id:7,name:"امیر علی آرامش",english:"A.ARAMESH",age:18,position:"دفاع",secondary:"هافبک وسط",image:"amiralia.jpg",pac:91,sho:87,pas:90,dri:93,def:86,phy:80,foot:"راست",weak:3,skills:3,attack:"متوسط",defense:"متوسط"},
+{id:8,name:"سجاد حسنی تبار",english:"S.HASANITABAR",age:17,position:"دروازه‌بان",secondary:"دفاع",image:"ChatGPT Image Aug 23, 2026, 03_13_17 PM.jpg",pac:69,sho:81,pas:83,dri:79,def:80,phy:98,foot:"راست",weak:1,skills:1,attack:"کم",defense:"متوسط"},
+{id:9,name:"متین جوان",english:"M.JAVAN",age:16,position:"هافبک وسط",secondary:"دفاع",image:"matin.jpg",pac:73,sho:83,pas:86,dri:82,def:81,phy:95,foot:"راست",weak:1,skills:1,attack:"متوسط",defense:"متوسط"},
+{id:10,name:"عادل نصیری",english:"A.NASIRY",age:16,position:"دفاع",secondary:"هافبک دفاعی",image:"aadel.jpg",pac:57,sho:60,pas:79,dri:52,def:61,phy:90,foot:"راست",weak:1,skills:1,attack:"کم",defense:"کم"},
+{id:11,name:"محمد مهدی سالاری",english:"M.SALARY",age:13,position:"مهاجم",secondary:"هافبک دفاعی",image:"mohammadmahdi.jpg",pac:85,sho:83,pas:85,dri:84,def:80,phy:82,foot:"راست",weak:2,skills:2,attack:"متوسط",defense:"کم"},
+{id:12,name:"امیر علی قهستانی",english:"A.GHAHESTANI",age:17,position:"دروازه‌بان",secondary:"دفاع",image:"amiraligh.jpg",pac:80,sho:81,pas:82,dri:78,def:80,phy:90,foot:"راست",weak:1,skills:1,attack:"کم",defense:"متوسط"}
+];
+const SKILLS=[["pac","PAC","سرعت"],["sho","SHO","شوت"],["pas","PAS","پاس"],["dri","DRI","دریبل"],["def","DEF","دفاع"],["phy","PHY","قدرت بدنی"]];
+let players=loadPlayers(),squad=loadSquad(),selectedBenchId=null,editingId=null,toastTimer;
+function loadPlayers(){try{let a=JSON.parse(localStorage.getItem("fcfriends_players"));if(Array.isArray(a)&&a.length)return a}catch(e){}return DEFAULT_PLAYERS.map(p=>({...p}))}
+function loadSquad(){try{let a=JSON.parse(localStorage.getItem("fcfriends_squad"));if(Array.isArray(a))return Array.from({length:5},(_,i)=>a[i]||null)}catch(e){}return[null,null,null,null,null]}
+function saveAll(){localStorage.setItem("fcfriends_players",JSON.stringify(players));localStorage.setItem("fcfriends_squad",JSON.stringify(squad))}
+function ovr(p){return Math.round(SKILLS.reduce((s,a)=>s+(Number(p[a[0]])||0),0)/6)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function initials(n){return String(n||"?").trim().split(/\s+/).slice(-2).map(x=>x[0]||"").join("")}
+function imgPath(p){return p.image?"images/"+p.image.replace(/^images\//,""):""}
+function posShort(p){return{"دروازه‌بان":"GK","دفاع":"CB","هافبک وسط":"CM","هافبک هجومی":"CAM","هافبک دفاعی":"CDM","مهاجم":"ST","وینگر چپ":"LW","وینگر راست":"RW"}[p]||p||"CM"}
+function cardHTML(p,clickable=true){return `<article class="player-card" ${clickable?`onclick="openProfile(${p.id})"`:""}><div class="card-inner"><div class="card-top"><div><div class="ovr">${ovr(p)}</div><div class="position">${esc(posShort(p.position))}</div></div><div class="tag">${esc(p.age)} YRS</div></div><div class="avatar">${p.image?`<img src="${esc(imgPath(p))}" alt="${esc(p.name)}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='grid'">`:""}<div class="placeholder" style="${p.image?"display:none":""}">${esc(initials(p.name))}</div></div><div class="card-name">${esc(p.name)}</div><div class="card-english">${esc(p.english||"")}</div><div class="skills">${SKILLS.map(([k,c])=>`<div class="skill"><span>${c}</span><b>${Number(p[k])||0}</b></div>`).join("")}</div><div class="card-footer"><span class="chip">${esc(p.foot||"راست")} foot</span><span class="chip">SM ${p.skills||1}★</span><span class="chip">WF ${p.weak||1}★</span></div></div></article>`}
+function renderStats(){document.getElementById("totalPlayers").textContent=players.length;document.getElementById("topOvr").textContent=players.length?Math.max(...players.map(ovr)):"—";document.getElementById("avgOvr").textContent=players.length?Math.round(players.reduce((s,p)=>s+ovr(p),0)/players.length):"—";document.getElementById("topPlayer").textContent=players.length?[...players].sort((a,b)=>ovr(b)-ovr(a))[0].name:"—"}
+function renderCards(){document.getElementById("featuredCards").innerHTML=[...players].sort((a,b)=>ovr(b)-ovr(a)).slice(0,4).map(p=>cardHTML(p)).join("");document.getElementById("homeCards").innerHTML=players.slice(0,4).map(p=>cardHTML(p)).join("");renderGallery();renderRanking();renderCompareOptions();renderSquad();renderStats()}
+function renderGallery(){const q=(document.getElementById("searchInput").value||"").trim().toLowerCase(),pos=document.getElementById("positionFilter").value,sort=document.getElementById("sortSelect").value;let list=players.filter(p=>(!q||(p.name+" "+p.english).toLowerCase().includes(q))&&(!pos||p.position===pos));list.sort((a,b)=>sort==="name"?a.name.localeCompare(b.name,"fa"):sort==="ovr"?ovr(b)-ovr(a):(b[sort]||0)-(a[sort]||0));document.getElementById("galleryCards").innerHTML=list.map(p=>cardHTML(p)).join("");document.getElementById("noResults").classList.toggle("hidden",!!list.length)}
+function renderRanking(){const key=document.getElementById("rankingSort").value;let list=[...players].sort((a,b)=>key==="ovr"?ovr(b)-ovr(a):(b[key]||0)-(a[key]||0));document.getElementById("rankingBody").innerHTML=list.map((p,i)=>`<tr><td class="rank">${i+1}</td><td><button onclick="openProfile(${p.id})">${esc(p.name)}</button></td><td>${esc(p.position)}</td><td class="rank">${ovr(p)}</td>${SKILLS.map(([k])=>`<td>${p[k]}</td>`).join("")}</tr>`).join("")}
+function renderCompareOptions(){["compareA","compareB"].forEach((id,i)=>{const el=document.getElementById(id),old=el.value;el.innerHTML=players.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");if(players.some(p=>String(p.id)===old))el.value=old;else if(players[i])el.value=players[i].id});renderCompare()}
+function renderCompare(){const a=players.find(p=>p.id===+document.getElementById("compareA").value),b=players.find(p=>p.id===+document.getElementById("compareB").value);if(!a||!b){document.getElementById("compareResult").innerHTML='<div class="empty">برای مقایسه، حداقل دو بازیکن ثبت کن.</div>';return}document.getElementById("compareResult").innerHTML=`<div class="compare-grid">${[a,b].map(p=>`<div class="compare-card"><div style="display:flex;justify-content:space-between;align-items:center"><b>${esc(p.name)}</b><strong class="gold" style="font-size:27px">${ovr(p)}</strong></div><small style="color:var(--muted)">${esc(p.position)}</small>${SKILLS.map(([k,c])=>`<div class="bar-row"><label>${c}</label><div class="bar"><i style="width:${p[k]}%"></i></div><b>${p[k]}</b></div>`).join("")}</div>`).join("")}</div>`}
+function openProfile(id){const p=players.find(x=>x.id===id);if(!p)return;document.getElementById("modalTitle").textContent=p.name;document.getElementById("modalBody").innerHTML=`<div class="profile-grid">${cardHTML(p,false)}<div><div class="details"><div class="detail"><span>امتیاز کلی OVR</span><b class="gold" style="font-size:25px">${ovr(p)}</b></div><div class="detail"><span>سن</span><b>${p.age}</b></div><div class="detail"><span>پست اصلی</span><b>${esc(p.position)}</b></div><div class="detail"><span>پست فرعی</span><b>${esc(p.secondary||"—")}</b></div><div class="detail"><span>پای تخصصی</span><b>${esc(p.foot)}</b></div><div class="detail"><span>پای ضعیف</span><b>${p.weak}/5 ★</b></div><div class="detail"><span>مهارت تکنیکی</span><b>${p.skills}/5 ★</b></div><div class="detail"><span>کار هجومی</span><b>${esc(p.attack)}</b></div><div class="detail"><span>کار دفاعی</span><b>${esc(p.defense)}</b></div></div><h3 class="subheading">ویژگی‌های فوتبالی</h3>${SKILLS.map(([k,c])=>`<div class="bar-row"><label>${c}</label><div class="bar"><i style="width:${p[k]}%"></i></div><b>${p[k]}</b></div>`).join("")}<div class="actions"><button class="primary" onclick="downloadCard(${p.id})">دانلود کارت PNG</button><button onclick="addToSquad(${p.id});closeModal();showPage('squad')">افزودن به ترکیب</button></div></div></div>`;document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+function showPage(page){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="page-"+page));document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===page));if(page==="gallery")renderGallery();if(page==="ranking")renderRanking();if(page==="compare")renderCompareOptions();if(page==="squad")renderSquad();window.scrollTo({top:0,behavior:"smooth"})}
+function notify(s){const t=document.getElementById("toast");t.textContent=s;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",2500)}
+function openPack(n){if(!players.length){notify("بازیکنی ثبت نشده است");return}let pool=[...players].sort(()=>Math.random()-.5).slice(0,Math.min(n,players.length));document.getElementById("packResult").innerHTML='<div style="width:100%;text-align:center;padding:20px;color:var(--gold)">✨ پک در حال باز شدن... ✨</div>';setTimeout(()=>document.getElementById("packResult").innerHTML=pool.map(p=>cardHTML(p)).join(""),650)}
+function renderSquad(){document.querySelectorAll(".slot").forEach((slot,i)=>{const p=players.find(x=>x.id===squad[i]);slot.classList.remove("over");slot.innerHTML=p?`<span>${esc(posShort(p.position))}</span><span class="slot-ovr">${ovr(p)}</span><b>${esc(p.name)}</b><button style="padding:3px 6px;font-size:10px;margin-top:4px" onclick="event.stopPropagation();removeFromSquad(${i})">برداشتن</button>`:(i===0?"🧤 دروازه‌بان":"⚽ جایگاه بازیکن");slot.ondragover=e=>{e.preventDefault();slot.classList.add("over")};slot.ondragleave=()=>slot.classList.remove("over");slot.ondrop=e=>{e.preventDefault();slot.classList.remove("over");const id=Number(e.dataTransfer.getData("text/plain"));if(id)addToSquad(id,i)};slot.onclick=()=>{if(selectedBenchId){addToSquad(selectedBenchId,i);selectedBenchId=null}}});document.getElementById("bench").innerHTML=players.filter(p=>!squad.includes(p.id)).map(p=>`<div class="bench-player" draggable="true" onclick="selectedBenchId=${p.id};document.querySelectorAll('.bench-player').forEach(x=>x.style.borderColor='');this.style.borderColor='var(--gold)'" ondragstart="event.dataTransfer.setData('text/plain','${p.id}')"><span>${esc(posShort(p.position))} · ${ovr(p)}</span><b>${esc(p.name)}</b><small>لمس کن یا بکش</small></div>`).join("")||'<div class="empty">همه بازیکنان در ترکیب هستند.</div>'}
+function addToSquad(id,index){if(!players.some(p=>p.id===id))return;const old=squad.indexOf(id);if(old>=0)squad[old]=null;let target=index;if(target===undefined||target===null)target=squad.findIndex(x=>x===null);if(target<0)target=0;const replaced=squad[target];squad[target]=id;if(replaced&&replaced!==id){const empty=squad.findIndex((x,i)=>x===null&&i!==target);if(empty>=0)squad[empty]=replaced}saveAll();renderSquad();notify("بازیکن به ترکیب اضافه شد")}
+function removeFromSquad(i){squad[i]=null;saveAll();renderSquad()}
+function resetSquad(){squad=[null,null,null,null,null];saveAll();renderSquad()}
+function newPlayerForm(){editingId=null;document.getElementById("editPlayer").value="";["fName","fEnglish","fAge","fSecondary","fImage","fWeak","fSkills","fPac","fSho","fPas","fDri","fDef","fPhy"].forEach(id=>document.getElementById(id).value="");document.getElementById("fPosition").value="مهاجم";document.getElementById("fFoot").value="راست";document.getElementById("fAttack").value="متوسط";document.getElementById("fDefense").value="متوسط";previewOvr()}
+function fillAdminForm(){const sel=document.getElementById("editPlayer"),old=sel.value;sel.innerHTML=players.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");if(old&&players.some(p=>String(p.id)===old))sel.value=old;const p=players.find(x=>x.id===Number(sel.value));if(!p){newPlayerForm();return}editingId=p.id;const fields={fName:p.name,fEnglish:p.english||"",fAge:p.age,fPosition:p.position,fSecondary:p.secondary||"",fImage:p.image||"",fFoot:p.foot||"راست",fWeak:p.weak||1,fSkills:p.skills||1,fAttack:p.attack||"متوسط",fDefense:p.defense||"متوسط",fPac:p.pac,fSho:p.sho,fPas:p.pas,fDri:p.dri,fDef:p.def,fPhy:p.phy};Object.entries(fields).forEach(([id,v])=>document.getElementById(id).value=v);previewOvr()}
+function loginAdmin(){const pass=document.getElementById("adminPassword").value;if(pass!==(localStorage.getItem("fcfriends_adminpass")||"FC1405")){notify("رمز مدیریت اشتباه است");return}sessionStorage.setItem("fcfriends_admin","1");document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminContent").classList.remove("hidden");fillAdminForm()}
+function logoutAdmin(){sessionStorage.removeItem("fcfriends_admin");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminContent").classList.add("hidden")}
+function clampStat(id){return Math.max(1,Math.min(99,Number(document.getElementById(id).value)||1))}
+function savePlayer(){const val=id=>document.getElementById(id).value.trim(),num=id=>Number(document.getElementById(id).value);if(!val("fName")){notify("نام بازیکن را وارد کن");return}const v={name:val("fName"),english:val("fEnglish"),age:Math.max(1,Math.min(99,num("fAge")||16)),position:val("fPosition"),secondary:val("fSecondary"),image:val("fImage").replace(/^images\//,""),foot:val("fFoot"),weak:Math.max(1,Math.min(5,num("fWeak")||1)),skills:Math.max(1,Math.min(5,num("fSkills")||1)),attack:val("fAttack"),defense:val("fDefense"),pac:clampStat("fPac"),sho:clampStat("fSho"),pas:clampStat("fPas"),dri:clampStat("fDri"),def:clampStat("fDef"),phy:clampStat("fPhy")};if(editingId&&players.some(p=>p.id===editingId)){players=players.map(p=>p.id===editingId?{...p,...v}:p)}else{v.id=Math.max(0,...players.map(p=>p.id))+1;players.push(v);editingId=v.id}saveAll();renderCards();fillAdminForm();notify("بازیکن ذخیره شد")}
+function deletePlayer(){if(!editingId){notify("ابتدا بازیکن را انتخاب کن");return}const p=players.find(x=>x.id===editingId);if(!p||!confirm("بازیکن «"+p.name+"» حذف شود؟"))return;players=players.filter(x=>x.id!==editingId);squad=squad.map(id=>id===editingId?null:id);saveAll();renderCards();fillAdminForm();notify("بازیکن حذف شد")}
+function previewOvr(){const ids=["fPac","fSho","fPas","fDri","fDef","fPhy"],a=ids.map(id=>Number(document.getElementById(id).value)||0);document.getElementById("ovrPreview").textContent="OVR محاسبه‌شده: "+(a.every(x=>x>0)?Math.round(a.reduce((s,n)=>s+n,0)/6):"—")}
+function changePassword(){const old=prompt("رمز فعلی را وارد کن:");if(old!==(localStorage.getItem("fcfriends_adminpass")||"FC1405")){notify("رمز فعلی اشتباه است");return}const next=prompt("رمز جدید را وارد کن (حداقل ۴ نویسه):");if(!next||next.length<4){notify("رمز جدید معتبر نیست");return}localStorage.setItem("fcfriends_adminpass",next);notify("رمز مدیریت تغییر کرد")}
+function exportData(){const blob=new Blob([JSON.stringify({version:1,players,squad},null,2)],{type:"application/json"}),a=document.createElement("a"),url=URL.createObjectURL(blob);a.href=url;a.download="fc-friends-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+document.getElementById("importFile").addEventListener("change",e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!Array.isArray(d.players))throw Error();players=d.players;squad=Array.isArray(d.squad)?Array.from({length:5},(_,i)=>d.squad[i]||null):[null,null,null,null,null];saveAll();renderCards();fillAdminForm();notify("پشتیبان بازیابی شد")}catch(err){notify("فایل پشتیبان معتبر نیست")}};reader.readAsText(file);e.target.value=""});
+function downloadCard(id){const p=players.find(x=>x.id===id);if(!p)return;const c=document.createElement("canvas");c.width=720;c.height=1040;const ctx=c.getContext("2d"),g=ctx.createLinearGradient(0,0,720,1040);g.addColorStop(0,"#f7df93");g.addColorStop(.31,"#8b672b");g.addColorStop(.34,"#1b2738");g.addColorStop(1,"#07101d");ctx.fillStyle=g;ctx.fillRect(0,0,720,1040);ctx.strokeStyle="#ffedb0";ctx.lineWidth=5;ctx.strokeRect(22,22,676,996);ctx.fillStyle="#fff0b8";ctx.textAlign="left";ctx.font="bold 82px Arial";ctx.fillText(String(ovr(p)),65,130);ctx.font="bold 36px Arial";ctx.fillText(posShort(p.position),75,180);ctx.font="bold 24px Arial";ctx.fillText("FC FRIENDS",420,100);ctx.textAlign="center";ctx.font="bold 43px Tahoma,Arial";ctx.fillText(p.name,360,570);ctx.font="22px Arial";ctx.fillText(p.english||"",360,610);let y=680;SKILLS.forEach(([k,code])=>{ctx.textAlign="left";ctx.fillStyle="#e9eef5";ctx.font="bold 30px Arial";ctx.fillText(code,160,y);ctx.textAlign="right";ctx.fillStyle="#ffe6a0";ctx.fillText(String(p[k]),560,y);y+=48});ctx.textAlign="center";ctx.fillStyle="#fff0b8";ctx.font="22px Tahoma,Arial";ctx.fillText(`${p.age} سال · پای ${p.foot} · SM ${p.skills} · WF ${p.weak}`,360,985);function finish(){const a=document.createElement("a");a.download=(p.english||p.name).replace(/\s+/g,"-")+".png";a.href=c.toDataURL("image/png");a.click()}if(p.image){const img=new Image();img.onload=()=>{ctx.drawImage(img,170,190,380,350);finish()};img.onerror=finish;img.src=imgPath(p)}else finish()}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+document.getElementById("searchInput").addEventListener("input",renderGallery);
+document.getElementById("positionFilter").addEventListener("change",renderGallery);
+document.getElementById("sortSelect").addEventListener("change",renderGallery);
+document.getElementById("rankingSort").addEventListener("change",renderRanking);
+document.getElementById("compareA").addEventListener("change",renderCompare);
+document.getElementById("compareB").addEventListener("change",renderCompare);
+document.getElementById("editPlayer").addEventListener("change",fillAdminForm);
+document.querySelectorAll(".skill-input").forEach(x=>x.addEventListener("input",previewOvr));
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+if(sessionStorage.getItem("fcfriends_admin")==="1"){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminContent").classList.remove("hidden")}
+renderCards();
+</script>
+</body>
+</html>
+
